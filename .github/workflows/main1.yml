@@ -8,7 +8,7 @@ on:
 jobs:
   run-telegram-script:
     runs-on: ubuntu-latest
-    timeout-minutes: 360  # حداکثر 6 ساعت اجرا
+    timeout-minutes: 355  # حداکثر 6 ساعت اجرا
 
     steps:
       - name: Checkout repository
