@@ -1,0 +1,34 @@
+name: Telegram Forwarder test
+
+on:
+  schedule:
+    - cron: '1 0 * * *'  # اجرای روزانه ساعت 00:01 UTC
+  workflow_dispatch:
+
+jobs:
+  telegram-job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355  # توقف بعد از 6 ساعت
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install telethon
+
+      - name: Restore Telegram session
+        run: |
+          echo "$TG_SESSION_B64" | base64 -d > gh_session.session
+        env:
+          TG_SESSION_B64: ${{ secrets.TG_SESSION_B64 }}
+
+      - name: Run the script
+        run: |
+          python monitoring.py
