@@ -1,12 +1,20 @@
-from telethon import TelegramClient, events
+import os
+import base64
 import asyncio
+from telethon import TelegramClient, events
 
-# --- اطلاعات شما ---
-api_id = 24447677  # جایگزین کن با API ID خودت
-api_hash = 'b5b1aee85d98b5e14a66d990472bd09d'  # جایگزین کن با API Hash
-session_name = 'amir_session'  # فایل session ذخیره میشه
+# --- اطلاعات حساب ---
+api_id = 24447677  # ← جایگزین کن
+api_hash = 'b5b1aee85d98b5e14a66d990472bd09d'  # ← جایگزین کن
 
-# --- عبارات مورد نظر ---
+# --- بازیابی session از secret (در GitHub Actions) ---
+if os.getenv('TG_SESSION_B64'):
+    with open('gh_session.session', 'wb') as f:
+        f.write(base64.b64decode(os.getenv('TG_SESSION_B64')))
+
+client = TelegramClient('gh_session', api_id, api_hash)
+
+# --- کلیدواژه‌ها و مقصد ---
 keywords = [
     'machine learning', 'deep learning', 'regression', 'AI', 'ماشین لرنینگ',
     'یادگیری ماشین', 'data science', 'عصبی', 'یادگیری عمیق', 'هوش مصنوعی',
@@ -16,31 +24,24 @@ keywords = [
     'کامپیوتر','زبان طبیعی','nlp','NLP','بینایی ماشین','یادگیری تقویتی','vision',
     'reinforcement','Reinforcement','الگوریتم'
 ]
-
-# --- مقصد فوروارد ---
 forward_to = '@Amir_GH_0505'
 
-# --- ساختن کلاینت ---
-client = TelegramClient(session_name, api_id, api_hash)
-
-# --- هندل کردن پیام‌ها ---
 @client.on(events.NewMessage)
 async def handler(event):
-    if event.message.message:  # اگر پیام متنی بود
-        message_text = event.message.message.lower()
-        if any(word.lower() in message_text for word in keywords):
+    if event.message.message:
+        text = event.message.message.lower()
+        if any(word.lower() in text for word in keywords):
             try:
                 await event.message.forward_to(forward_to)
-                print(f'✅ پیام فروارد شد: {message_text}')
+                print("✅ پیام فروارد شد")
             except Exception as e:
-                print(f'❌ خطا در فوروارد: {e}')
+                print("❌ خطا در فوروارد:", e)
 
-# --- اجرای برنامه ---
 async def main():
     await client.start()
-    print("🚀 ربات فعال است و منتظر پیام‌های جدید...")
+    print("🚀 ربات آماده دریافت پیام است...")
     await client.run_until_disconnected()
 
-# شروع
 if __name__ == '__main__':
     asyncio.run(main())
+
