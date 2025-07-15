@@ -2,7 +2,7 @@ name: Telegram Forwarder 2
 
 on:
   schedule:
-    - cron: '1 12 * * *'  # اجرای روزانه ساعت 00:01 UTC
+    - cron: '1 6 * * *'  # اجرای روزانه ساعت 00:01 UTC
   workflow_dispatch:
 
 jobs:
