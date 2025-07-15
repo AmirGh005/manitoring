@@ -1,4 +1,4 @@
-name: Telegram Message Forwarder
+name: Telegram Message Forwarder 1
 
 on:
   schedule:
