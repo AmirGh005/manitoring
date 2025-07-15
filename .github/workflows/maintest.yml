@@ -31,4 +31,4 @@ jobs:
 
       - name: Run the script
         run: |
-          python monitoring.py
+          python manitoring.py
