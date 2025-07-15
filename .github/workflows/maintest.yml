@@ -2,13 +2,13 @@ name: Telegram Forwarder test
 
 on:
   schedule:
-    - cron: '1 0 * * *'  # اجرای روزانه ساعت 00:01 UTC
+    - cron: '* * * * *'  # اجرای روزانه ساعت 00:01 UTC
   workflow_dispatch:
 
 jobs:
   telegram-job:
     runs-on: ubuntu-latest
-    timeout-minutes: 355  # توقف بعد از 6 ساعت
+    timeout-minutes: 60  # توقف بعد از 6 ساعت
 
     steps:
       - name: Checkout code
