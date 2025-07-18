@@ -1,17 +1,17 @@
-name: Telegram Forwarder 2
+name: Telegram Message Forwarder 2
 
 on:
   schedule:
     - cron: '1 6 * * *'  # اجرای روزانه ساعت 00:01 UTC
-  workflow_dispatch:
+  workflow_dispatch:      # اجازه اجرای دستی هم داشته باشه
 
 jobs:
-  telegram-job:
+  run-telegram-script:
     runs-on: ubuntu-latest
-    timeout-minutes: 355  # توقف بعد از 6 ساعت
+    timeout-minutes: 355  # حداکثر 6 ساعت اجرا
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -23,12 +23,6 @@ jobs:
         run: |
           pip install telethon
 
-      - name: Restore Telegram session
-        run: |
-          echo "$TG_SESSION_B64" | base64 -d > gh_session.session
-        env:
-          TG_SESSION_B64: ${{ secrets.TG_SESSION_B64 }}
-
-      - name: Run the script
+      - name: Run Telegram Forwarder
         run: |
           python manitoring.py
