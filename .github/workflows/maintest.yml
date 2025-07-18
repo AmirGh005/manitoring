@@ -2,7 +2,7 @@ name: Telegram Message Forwarder test
 
 on:
   schedule:
-    - cron: '* * * * *'  # اجرای روزانه ساعت 00:01 UTC
+    - cron: '1 0 * * *'  # اجرای روزانه ساعت 00:01 UTC
   workflow_dispatch:      # اجازه اجرای دستی هم داشته باشه
 
 jobs:
